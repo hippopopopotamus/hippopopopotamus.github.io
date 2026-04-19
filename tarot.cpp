@@ -101,6 +101,6 @@ extern "C" {
 }
 
 int main() {
-  std::cout << "[SYSTEM] WASM Runtime Initialized. Awaiting query..." << std::endl;
+  std::cout << "[SYSTEM] WASM Runtime Initialised. Awaiting query..." << std::endl;
   return 0;
 }
