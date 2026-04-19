@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NIST | TAROT_DECODER</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>NIST RANDOMNESS BEACON: TAROT ORACLE</h1>
+    <hr>
+
+    <div id="oracle-box">
+        <p id="status">WASM ENGINE: READY</p>
+        
+        <div style="margin-bottom: 20px;">
+            <input type="text" id="question" placeholder="Ask the government a question..." autocomplete="off" style="width: 80%; padding: 10px; background: #111; border: 1px solid #444; color: #00ff41; font-family: monospace;">
+            <button id="consult-btn">CONSULT BEACON!!!!1</button>
+        </div>
+
+        <div id="output">
+            </div>
+    </div>
+
+    <script src="tarot_engine.js"></script>
+
+    <script>
+        // Tell Emscripten to redirect stdout to our #output div
+        Module.print = function(text) {
+            // Append rather than overwrite so we see the full multiline C++ output
+            document.getElementById('output').innerText += text + '\n';
+        };
+
+        // Attach the button to our C++ logic
+        document.getElementById('consult-btn').addEventListener('click', () => {
+            const question = document.getElementById('question').value;
+            const outputBox = document.getElementById('output');
+            
+            if (!question.trim()) {
+                outputBox.innerText = "[!] ERROR: NO QUESTION DETECTED.\n";
+                return;
+            }
+
+            // Clear previous results and show loading text
+            outputBox.innerText = "TRANSMITTING QUERY TO NIST...\nWAITING FOR BEACON PULSE...\n\n";
+            
+            // Call the C++ function
+            Module._consult_oracle(); 
+        });
+    </script>
+</body>
+</html>
