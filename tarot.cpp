@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <cstring>
+#include <ctime>
 
 struct TarotCard {
   const char* name;
@@ -88,6 +89,9 @@ void download_failed(emscripten_fetch_t *fetch)
 extern "C" {
   void consult_oracle()
   {
+    long long now = std::time(0);
+    std::string req = "https://beacon.nist.gov/beacon/2.0/pulse/time/" + std::to_string(now);
+
     emscripten_fetch_attr_t attr;
     emscripten_fetch_attr_init(&attr);
     strcpy(attr.requestMethod, "GET");
@@ -95,8 +99,7 @@ extern "C" {
     attr.onsuccess = download_succeded;
     attr.onerror = download_failed;
 
-    // Fetch the last pulse
-    emscripten_fetch(&attr, "https://beacon.nist.gov/beacon/2.0/pulse/last");
+    emscripten_fetch(&attr, req.c_str());
   }
 }
 

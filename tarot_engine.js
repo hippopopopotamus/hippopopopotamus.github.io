@@ -1038,6 +1038,8 @@ async function createWasm() {
       }
     };
 
+  var _emscripten_date_now = () => Date.now();
+
   function _emscripten_fetch_free(id) {
     if (Fetch.xhrs.has(id)) {
       var xhr = Fetch.xhrs.get(id);
@@ -5036,6 +5038,8 @@ var wasmImports = {
   _abort_js: __abort_js,
   /** @export */
   _tzset_js: __tzset_js,
+  /** @export */
+  emscripten_date_now: _emscripten_date_now,
   /** @export */
   emscripten_fetch_free: _emscripten_fetch_free,
   /** @export */
