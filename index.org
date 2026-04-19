@@ -2,6 +2,7 @@
 #+OPTIONS: num:nil toc:nil html-postamble:nil
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="style.css" />
 #+HTML_HEAD: <link rel="icon" type="image/png" href="favicon.jpg" />
+#+PROPERTY: header-args :htmlize-output-type inline-css
 
 * OSANPO-DESU
 
