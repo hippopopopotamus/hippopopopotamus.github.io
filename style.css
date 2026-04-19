@@ -10,28 +10,3 @@ h1, h2 {
     border-bottom: 1px solid #00ff41;
     display: inline-block;
 }
-
-/* Make your code snippets look like a real terminal */
-code {
-    background: #161b22;
-    padding: 2px 5px;
-    border-radius: 3px;
-    color: #ff79c6; /* Pink for contrast */
-}
-
-/* Container for the code block */
-pre.src {
-    background-color: #1b1d23;
-    color: #abb2bf;
-    padding: 15px;
-    border-left: 5px solid #00ff41; /* "Hacker" green accent */
-    overflow-x: auto;
-    border-radius: 4px;
-    font-size: 0.9em;
-}
-
-/* Styling specific parts of the code (fontified by htmlize) */
-.org-keyword { color: #c678dd; font-weight: bold; } /* e.g., 'int', 'mov' */
-.org-function-name { color: #61afef; }             /* e.g., 'main' */
-.org-string { color: #98c379; }                    /* e.g., "Hello" */
-.org-comment { color: #5c6370; font-style: italic; }
