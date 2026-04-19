@@ -90,9 +90,14 @@ void download_failed(emscripten_fetch_t *fetch)
 extern "C" {
   void consult_oracle()
   {
-    std::mt19937 engine(static_cast<unsigned int>(std::time(0)));
-    long long start_time = 0;
-    long long end_time = std::time(0);
+    // 1. Make the engine 'static' so it only seeds ONCE per page load.
+    static std::mt19937 engine(static_cast<unsigned int>(std::time(0)));
+
+    // 2. Define the bounds in ms.
+    // Beacon 2.0 started around Sept 2019 (approx 1567702800000 ms),.
+    long long start_time = 1567702800000LL;
+    long long end_time = static_cast<long long>(std::time(0)) * 1000LL;
+
     std::uniform_int_distribution<long long> dist(start_time, end_time);
     long long random_unix_time = dist(engine);
 
