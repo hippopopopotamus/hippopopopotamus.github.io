@@ -1,0 +1,20 @@
+body {
+    background-color: #0d1117; /* Dark background */
+    color: #00ff41;           /* Matrix/Terminal green */
+    font-family: 'Courier New', monospace;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+h1, h2 {
+    border-bottom: 1px solid #00ff41;
+    display: inline-block;
+}
+
+/* Make your code snippets look like a real terminal */
+code {
+    background: #161b22;
+    padding: 2px 5px;
+    border-radius: 3px;
+    color: #ff79c6; /* Pink for contrast */
+}
