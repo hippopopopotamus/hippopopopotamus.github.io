@@ -1,20 +1,68 @@
+/* Update your body to ensure text is readable */
 body {
-    background-color: #0d1117;
-    color: #00ff41;
+    background-color: #0d1117; /* Keep the dark base */
+    color: #e2a9b0;           /* Soft Pink */
     font-family: 'Courier New', monospace;
-    padding: 20px;
-    line-height: 1.6;
 }
 
+/* Header style */
 h1, h2 {
-    border-bottom: 1px solid #00ff41;
-    display: inline-block;
+    color: #ffdbc5;           /* Pale Peach */
+    border-bottom: 2px solid #4a576d;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
-a:visited {
-    color: #00ff41;
+/* The Table of Contents (Index) Style */
+a {
+    text-decoration: none;    /* Kills the underline */
+    color: #e2a9b0;
+    display: block;
+    padding: 8px;
+    transition: 0.2s;         /* Makes the hover smooth */
 }
 
-a:link {
-    color: #00ff41;
+/* Hover state: Inverts or highlights */
+a:hover {
+    background-color: #0a076d; /* Navy highlight */
+    color: #ffdbc5;            /* Peach text */
+    padding-left: 15px;       /* Subtle "slide" effect */
+}
+
+/* Add a prefix for that "File System" look */
+a::before {
+    content: "[ ENTRY ] ";
+    font-size: 0.8em;
+    color: #4a576d;
+}
+
+/* This creates the background layer */
+body::before {
+    content: "";
+    position: fixed; /* Stays in place when you scroll */
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+
+    /* Add your images here as multiple backgrounds */
+    background-image: url('osaka2.png'), url('chiyo2.png');
+    background-repeat: repeat;
+    background-size: 200px 200px; /* Adjust size of the tiles */
+    background-position: 0 0, 100px 50px; /* Offsets them so they don't overlap perfectly */
+
+    /* The Rotation */
+    transform: rotate(-25deg);
+
+    /* Make sure it stays behind everything */
+    z-index: -1;
+    opacity: 0.15; /* Makes them faint so you can still read your text */
+    pointer-events: none; /* Prevents the background from blocking clicks */
+}
+
+/* Ensure the body doesn't hide the background */
+body {
+    position: relative;
+    overflow-x: hidden; /* Prevents scrollbars caused by the rotated layer */
+    background-color: #0d1117;
 }
