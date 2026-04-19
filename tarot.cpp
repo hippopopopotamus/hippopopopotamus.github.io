@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cstring>
 #include <ctime>
+#include <random>
 
 struct TarotCard {
   const char* name;
@@ -89,8 +90,13 @@ void download_failed(emscripten_fetch_t *fetch)
 extern "C" {
   void consult_oracle()
   {
-    long long now = std::time(0);
-    std::string req = "https://beacon.nist.gov/beacon/2.0/pulse/time/" + std::to_string(now);
+    std::mt19937 engine(static_cast<unsigned int>(std::time(0)));
+    long long start_time = 1546300800; // Jan 1, 2019
+    long long end_time = std::time(0);
+    std::uniform_int_distribution<long long> dist(start_time, end_time);
+    long long random_unix_time = dist(engine);
+
+    std::string req = "https://beacon.nist.gov/beacon/2.0/pulse/time/" + std::to_string(random_unix_time);
 
     emscripten_fetch_attr_t attr;
     emscripten_fetch_attr_init(&attr);
