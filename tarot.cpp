@@ -57,7 +57,7 @@ void download_succeded(emscripten_fetch_t* fetch) {
   size_t pos = data.find(search_key);
 
   if (pos == std::string::npos) {
-    std::cout << "ERROR: NIST Beacon format changed!!!\n";
+    std::cout << "ERROR: NIST Beacon format changed!!!" << std::endl;
     return;
   }
 
@@ -75,7 +75,7 @@ void download_succeded(emscripten_fetch_t* fetch) {
   std::cout << "> RAW HEX BYTE: 0x" << hexadecimal_byte << "\n"
             << "> EXTRACTED VALUE: " << value << "\n"
             << "> DRAWN CARD: " << drawn_card << " (" << card_index + 1 << " / 78)\n"
-            << "> THE GOVERNMENT SAYS: " << vibe << '\n';
+            << "> THE GOVERNMENT SAYS: " << vibe << std::endl;
 }
 
 void download_failed(emscripten_fetch_t *fetch)
@@ -98,4 +98,9 @@ extern "C" {
     // Fetch the last pulse
     emscripten_fetch(&attr, "https://beacon.nist.gov/beacon/2.0/pulse/last");
   }
+}
+
+int main() {
+  std::cout << "[SYSTEM] WASM Runtime Initialized. Awaiting query..." << std::endl;
+  return 0;
 }

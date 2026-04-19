@@ -11,10 +11,12 @@
     <hr>
 
     <div id="oracle-box">
-        <p id="status">WASM ENGINE: READY</p>
-        
+      <p id="status">WASM ENGINE: READY</p>
+      <p>INSTEAD OF OWNING YOUR OWN LIFE AND MAKING DECISIONS, WHY WON'T WE LET A RANDOM ENGINE DECIDE OUR FUTURE?</p>
+      <p>GO AHEAD AND ASK A QUESTION!</p>
+
         <div style="margin-bottom: 20px;">
-            <input type="text" id="question" placeholder="Ask the government a question..." autocomplete="off" style="width: 80%; padding: 10px; background: #111; border: 1px solid #444; color: #00ff41; font-family: monospace;">
+            <input type="text" id="question" placeholder="I'M ALL YOURS..." autocomplete="off" style="width: 80%; padding: 10px; background: #111; border: 1px solid #444; color: #00ff41; font-family: monospace;">
             <button id="consult-btn">CONSULT BEACON!!!!1</button>
         </div>
 
@@ -22,30 +24,32 @@
             </div>
     </div>
 
+    <script>
+        var Module = {
+            print: function(text) {
+                document.getElementById('output').innerText += text + '\n';
+            },
+            printErr: function(text) {
+                // This will catch fatal WASM crashes and print them in red
+                document.getElementById('output').innerHTML += '<span style="color: red;">[ERR] ' + text + '</span>\n';
+            }
+        };
+    </script>
+
     <script src="tarot_engine.js"></script>
 
     <script>
-        // Tell Emscripten to redirect stdout to our #output div
-        Module.print = function(text) {
-            // Append rather than overwrite so we see the full multiline C++ output
-            document.getElementById('output').innerText += text + '\n';
-        };
-
-        // Attach the button to our C++ logic
         document.getElementById('consult-btn').addEventListener('click', () => {
             const question = document.getElementById('question').value;
             const outputBox = document.getElementById('output');
-            
+
             if (!question.trim()) {
-                outputBox.innerText = "[!] ERROR: NO QUESTION DETECTED.\n";
+                outputBox.innerText += "[!] ERROR: NO QUESTION DETECTED.\n";
                 return;
             }
 
-            // Clear previous results and show loading text
-            outputBox.innerText = "TRANSMITTING QUERY TO NIST...\nWAITING FOR BEACON PULSE...\n\n";
-            
-            // Call the C++ function
-            Module._consult_oracle(); 
+            outputBox.innerText += "\n> TRANSMITTING QUERY TO NIST...\n> WAITING FOR BEACON PULSE...\n\n";
+            Module._consult_oracle();
         });
     </script>
 </body>

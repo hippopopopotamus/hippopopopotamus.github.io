@@ -513,6 +513,11 @@ TTY.init();
   // End ATPOSTCTORS hooks
 }
 
+function preMain() {
+  checkStackCookie();
+  // No ATMAINS hooks
+}
+
 function postRun() {
   checkStackCookie();
    // PThreads reuse the runtime from the main thread.
@@ -4417,6 +4422,8 @@ var FS_stdin_getChar_buffer = [];
   }
   
 
+
+
   var getCFunc = (ident) => {
       var func = Module['_' + ident]; // closure exported function
       assert(func, `Cannot call unknown function ${ident}, make sure it is exported`);
@@ -4974,6 +4981,7 @@ function checkIncomingModuleAPI() {
 
 // Imports from the Wasm binary.
 var _consult_oracle = Module['_consult_oracle'] = makeInvalidEarlyAccess('_consult_oracle');
+var _main = Module['_main'] = makeInvalidEarlyAccess('_main');
 var _malloc = makeInvalidEarlyAccess('_malloc');
 var _fflush = makeInvalidEarlyAccess('_fflush');
 var _strerror = makeInvalidEarlyAccess('_strerror');
@@ -4992,6 +5000,7 @@ var wasmTable = makeInvalidEarlyAccess('wasmTable');
 
 function assignWasmExports(wasmExports) {
   assert(typeof wasmExports['consult_oracle'] != 'undefined', 'missing Wasm export: consult_oracle');
+  assert(typeof wasmExports['main'] != 'undefined', 'missing Wasm export: main');
   assert(typeof wasmExports['malloc'] != 'undefined', 'missing Wasm export: malloc');
   assert(typeof wasmExports['fflush'] != 'undefined', 'missing Wasm export: fflush');
   assert(typeof wasmExports['strerror'] != 'undefined', 'missing Wasm export: strerror');
@@ -5006,6 +5015,7 @@ function assignWasmExports(wasmExports) {
   assert(typeof wasmExports['memory'] != 'undefined', 'missing Wasm export: memory');
   assert(typeof wasmExports['__indirect_function_table'] != 'undefined', 'missing Wasm export: __indirect_function_table');
   _consult_oracle = Module['_consult_oracle'] = createExportWrapper('consult_oracle', 0);
+  _main = Module['_main'] = createExportWrapper('main', 2);
   _malloc = createExportWrapper('malloc', 1);
   _fflush = createExportWrapper('fflush', 1);
   _strerror = createExportWrapper('strerror', 1);
@@ -5054,6 +5064,27 @@ var wasmImports = {
 
 var calledRun;
 
+function callMain() {
+  assert(runDependencies == 0, 'cannot call main when async dependencies remain! (listen on Module["onRuntimeInitialized"])');
+  assert(typeof onPreRuns === 'undefined' || onPreRuns.length == 0, 'cannot call main when preRun functions remain to be called');
+
+  var entryFunction = _main;
+
+  var argc = 0;
+  var argv = 0;
+
+  try {
+
+    var ret = entryFunction(argc, argv);
+
+    // if we're not running an evented main loop, it's time to exit
+    exitJS(ret, /* implicit = */ true);
+    return ret;
+  } catch (e) {
+    return handleException(e);
+  }
+}
+
 function stackCheckInit() {
   // This is normally called automatically during __wasm_call_ctors but need to
   // get these values before even running any of the ctors so we call it redundantly
@@ -5091,10 +5122,13 @@ function run() {
 
     initRuntime();
 
+    preMain();
+
     Module['onRuntimeInitialized']?.();
     consumedModuleProp('onRuntimeInitialized');
 
-    assert(!Module['_main'], 'compiled without a main, but one is present. if you added it from JS, use Module["onRuntimeInitialized"]');
+    var noInitialRun = Module['noInitialRun'] || false;
+    if (!noInitialRun) callMain();
 
     postRun();
   }
