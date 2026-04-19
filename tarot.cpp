@@ -91,7 +91,7 @@ extern "C" {
   void consult_oracle()
   {
     std::mt19937 engine(static_cast<unsigned int>(std::time(0)));
-    long long start_time = 1546300800; // Jan 1, 2019
+    long long start_time = 0;
     long long end_time = std::time(0);
     std::uniform_int_distribution<long long> dist(start_time, end_time);
     long long random_unix_time = dist(engine);
