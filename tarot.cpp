@@ -77,7 +77,7 @@ void download_succeded(emscripten_fetch_t* fetch) {
   std::cout << "> RAW HEX BYTE: 0x" << hexadecimal_byte << "\n"
             << "> EXTRACTED VALUE: " << value << "\n"
             << "> DRAWN CARD: " << drawn_card << " (" << card_index + 1 << " / 78)\n"
-            << "> THE GOVERNMENT SAYS: " << vibe << std::endl;
+            << "> THE TAROT SAYS: " << vibe << std::endl;
 }
 
 void download_failed(emscripten_fetch_t *fetch)
