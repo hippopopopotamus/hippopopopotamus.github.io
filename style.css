@@ -13,20 +13,23 @@ h1, h2 {
     letter-spacing: 2px;
 }
 
-/* The Table of Contents (Index) Style */
-a {
-    text-decoration: none;    /* Kills the underline */
-    color: #e2a9b0;
-    display: block;
-    padding: 8px;
-    transition: 0.2s;         /* Makes the hover smooth */
+.toc-container {
+    width: fit-content;      /* Only as wide as the longest link */
+    margin: 0 auto;          /* Classic centering trick */
 }
 
-/* Hover state: Inverts or highlights */
+/* Update your 'a' tag to look better centered */
+a {
+    text-decoration: none;
+    color: #e2a9b0;
+    padding: 10px 20px;      /* More horizontal padding for a 'button' feel */
+    transition: 0.2s;
+}
+
 a:hover {
-    background-color: #0a076d; /* Navy highlight */
-    color: #ffdbc5;            /* Peach text */
-    padding-left: 15px;       /* Subtle "slide" effect */
+    padding-left: 20px;      /* Keep it consistent since it's centered */
+    background-color: #0a076d;
+    transform: scale(1.05);  /* Optional: a little 'pop' effect */
 }
 
 /* Add a prefix for that "File System" look */
@@ -65,4 +68,13 @@ body {
     position: relative;
     overflow-x: hidden; /* Prevents scrollbars caused by the rotated layer */
     background-color: #0d1117;
+}
+
+main {
+    display: flex;
+    flex-direction: column;   /* Stack items vertically */
+    align-items: center;      /* Center horizontally */
+    justify-content: center;   /* Center vertically */
+    min-height: 80vh;         /* Take up most of the screen height */
+    text-align: center;       /* Ensure the text inside also centers */
 }
