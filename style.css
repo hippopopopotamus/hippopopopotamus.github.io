@@ -1,80 +1,143 @@
-/* Update your body to ensure text is readable */
-body {
-    background-color: #0d1117; /* Keep the dark base */
-    color: #e2a9b0;           /* Soft Pink */
-    font-family: 'Courier New', monospace;
+/* 1. VARIABLES - Change these to re-brand instantly */
+:root {
+    --bg-color: #0d1117;
+    --text-pink: #e2a9b0;
+    --accent-peach: #ffdbc5;
+    --terminal-green: #00ff41;
+    --border-dim: #4a576d;
+    --terminal-black: #05070a;
 }
 
-/* Header style */
-h1, h2 {
-    color: #ffdbc5;           /* Pale Peach */
-    border-bottom: 2px solid #4a576d;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+/* 2. BASE RESET */
+* { box-sizing: border-box; }
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-pink);
+    font-family: 'Courier New', Courier, monospace; /* System fallback */
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+    overflow-x: hidden;
+}
+
+/* 3. LAYOUT */
+main, #oracle-box {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    color: var(--accent-peach);
+    font-size: 1.5rem;
+    border-bottom: 2px solid var(--border-dim);
+    padding-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+/* 4. THE ORACLE INTERFACE */
+#status {
+    color: var(--terminal-green);
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column; /* Stack on mobile */
+    gap: 10px;
+    margin: 30px 0;
+}
+
+input#question {
+    width: 100%;
+    padding: 15px;
+    background: var(--terminal-black);
+    border: 1px solid var(--border-dim);
+    color: var(--terminal-green);
+    font-family: monospace;
+    font-size: 1rem;
+    outline: none;
+}
+
+input#question:focus {
+    border-color: var(--terminal-green);
+}
+
+button#consult-btn {
+    padding: 15px;
+    background: var(--accent-peach);
+    color: var(--bg-color);
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+button#consult-btn:active {
+    transform: scale(0.98);
+}
+
+/* 5. TERMINAL OUTPUT */
+#output {
+    background: var(--terminal-black);
+    border: 1px solid var(--border-dim);
+    padding: 20px;
+    text-align: left;
+    min-height: 200px;
+    white-space: pre-wrap; /* Keeps the WASM formatting */
+    font-size: 0.85rem;
+    color: #ccc;
+    box-shadow: inset 0 0 10px #000;
+}
+
+/* 6. RESPONSIVENESS */
+@media (min-width: 600px) {
+    .input-group {
+        flex-direction: row; /* Horizontal on desktop */
+    }
+    button#consult-btn {
+        width: 250px;
+    }
+}
+
+/* 7. THE DECORATIVE LAYER (Personal Touch) */
+body::before {
+    content: "";
+    position: fixed;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+/*    background-image: url('osaka2.png'); */
+    background-repeat: repeat;
+    background-size: 150px;
+    z-index: -1;
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+a {
+    display: flex;
+    white-space: nowrap;
+    text-decoration: none;
+    color: var(--text-pink); /* */
 }
 
 .toc-container {
-    width: fit-content;      /* Only as wide as the longest link */
-    margin: 0 auto;          /* Classic centering trick */
+    display: inline-block; /* Container stays only as wide as the links */
+    text-align: left;      /* Aligns the rows to the left */
+    margin: 0 auto;        /* Keep the whole block centered in 'main' */
 }
 
-/* Update your 'a' tag to look better centered */
-a {
-    text-decoration: none;
-    color: #e2a9b0;
-    padding: 10px 20px;      /* More horizontal padding for a 'button' feel */
-    transition: 0.2s;
+.toc-container p {
+    margin: 10px 0;        /* Consistent spacing between lines */
 }
 
-a:hover {
-    padding-left: 20px;      /* Keep it consistent since it's centered */
-    background-color: #0a076d;
-    transform: scale(1.05);  /* Optional: a little 'pop' effect */
-}
-
-/* Add a prefix for that "File System" look */
-a::before {
-    content: "[ ENTRY ] ";
-    font-size: 0.8em;
-    color: #4a576d;
-}
-
-/* This creates the background layer */
-body::before {
-    content: "";
-    position: fixed; /* Stays in place when you scroll */
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-
-    /* Add your images here as multiple backgrounds */
-    background-image: url('osaka2.png'), url('chiyo2.png');
-    background-repeat: repeat;
-    background-size: 200px 200px; /* Adjust size of the tiles */
-    background-position: 0 0, 100px 50px; /* Offsets them so they don't overlap perfectly */
-
-    /* The Rotation */
-    transform: rotate(-25deg);
-
-    /* Make sure it stays behind everything */
-    z-index: -1;
-    opacity: 0.15; /* Makes them faint so you can still read your text */
-    pointer-events: none; /* Prevents the background from blocking clicks */
-}
-
-/* Ensure the body doesn't hide the background */
-body {
-    position: relative;
-    overflow-x: hidden; /* Prevents scrollbars caused by the rotated layer */
-    background-color: #0d1117;
-}
-
-main {
-    display: flex;
-    flex-direction: column;   /* Stack items vertically */
-    align-items: center;      /* Center horizontally */
-    justify-content: center;   /* Center vertically */
-    min-height: 80vh;         /* Take up most of the screen height */
-    text-align: center;       /* Ensure the text inside also centers */
+.tag {
+    display: inline-block;
+    /* Set this width to be slightly larger than your longest tag */
+    width: 140px;
+    color: var(--border-dim); /* Uses your existing variable */
+    font-weight: bold;
 }

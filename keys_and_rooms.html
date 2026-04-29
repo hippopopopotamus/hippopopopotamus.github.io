@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Keys and Rooms] | VPTERNLOGD</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/jpg" href="favicon.jpg">
+</head>
+<body>
+    <nav>
+        <p><a href="index.html">&lt; [ BACK TO HOME ]</a></p>
+    </nav>
+
+    <main>
+        <h2>FILE: KEYS_AND_ROOMS.LOG</h2>
+        
+        <article class="content-box">
+            <h3>01. PROBLEM DESCRIPTION</h3>
+            <p>
+                There are <strong>n</strong> rooms labeled from <strong>0</strong> to <strong>n - 1</strong>. All rooms are locked except for room <strong>0</strong>. 
+                Your goal is to visit all the rooms. However, you cannot enter a locked room without having its key.
+            </p>
+            <p>
+                When you visit a room, you may find a set of distinct keys in it. Each key unlocks a specific room; you can take all keys found to unlock further rooms.
+            </p>
+
+            <hr>
+
+            <h3>02. TEST_CASES</h3>
+            <section class="example-block">
+                <strong>Example 1:</strong>
+                <pre>
+Input: rooms = [[1],[2],[3],[]]
+Output: true
+Explanation: Visit 0 -> get key 1 -> visit 1 -> get key 2 -> visit 2 -> get key 3 -> visit 3.</pre>
+            </section>
+
+            <section class="example-block">
+                <strong>Example 2:</strong>
+                <pre>
+Input: rooms = [[1,3],[3,0,1],[2],[0]]
+Output: false
+Explanation: Room 2 is unreachable; its only key is inside itself.</pre>
+            </section>
+
+            <hr>
+
+            <h3>03. CONSTRAINTS</h3>
+            <ul style="list-style-type: '>> ';">
+                <li><code>n == rooms.length</code></li>
+                <li><code>2 <= n <= 1000</code></li>
+                <li><code>0 <= rooms[i].length <= 1000</code></li>
+                <li>The sum of <code>rooms[i].length</code> is &le; 3000.</li>
+            </ul>
+
+            <hr>
+
+            <h3>04. LOW-MEMORY USAGE SOLUTION (C++)</h3>
+            <p>Of course we could solve the problem using a set to store visited rooms and just perform a DFS.</p>
+            <p>However, using a bitset we can solve the problem while using a minimum amount of memory.</p>
+            <p>We only need <strong>n</strong> bits to store our visited rooms.</p>
+            <p>This is the idea:</p>
+            <p>1. Let <strong>n = 4</strong>.</p>
+            <p>2. Our bitset is initialised as 1000 because the first room is always considered visited.</p>
+            <p>3. For every unvisited room, we perform a DFS recursively.</p>
+            <p>4. After the full traversal, if all rooms were visited, then our bitset will be <strong>1111</strong>.</p>
+            <p>5. If the number of ones in our bitset equals <strong>n</strong>, it means all rooms were visited and we return <strong>true</strong>; <strong>false</strong> otherwise</p>
+            <p>Neat!</p>
+<pre style="background: rgba(0,0,0,0.3); padding: 15px; border-left: 3px solid #fff; text-align: left; overflow-x: auto; line-height: 1.4;">
+class Solution {
+    void dfs(int room, std::bitset&lt;1000&gt;&amp; visited, vector&lt;vector&lt;int&gt;&gt; const&amp; rooms) {
+        visited.set(room);
+        for (auto const& key : rooms[room]) {
+            if (!visited.test(key)) {
+                dfs(key, visited, rooms);
+            }
+        }
+    }
+
+public:
+    bool canVisitAllRooms(vector&lt;vector&lt;int&gt;&gt;&amp; rooms) {
+        auto const n = rooms.size();
+        std::bitset&lt;1000&gt; visited;
+        dfs(0, visited, rooms);
+        return visited.count() == n;
+    }
+};</pre>
+        </article>
+
+        <div class="status-footer">
+            <p style="font-size: 0.8em; margin-top: 50px; opacity: 0.7;">
+                [ STATUS: DOCUMENT_OPENED_SUCCESSFULLY ]
+            </p>
+        </div>
+    </main>
+</body>
+</html>

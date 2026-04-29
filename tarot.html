@@ -2,44 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NIST TAROT_DECODER</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/jpg" href="favicon.jpg">
 </head>
 <body>
-    <h1>NIST RANDOMNESS BEACON: TAROT ORACLE</h1>
-    <hr>
+      <nav>
+        <!-- A simple back button to return to your main terminal -->
+        <p><a href="index.html">< [ BACK TO HOME ]</a></p>
+      </nav>
+    <main id="oracle-box">
+        <h1>FILE: TAROT</h1>
+        
+        <p id="status">[ WASM C++ ENGINE: ACTIVE ]</p>
+        
+        <div class="manifesto">
+            <p>THINKING FOR YOURSELF IS SO 2000</p>
+        </div>
 
-    <div id="oracle-box">
-      <p id="status">WASM ENGINE: READY</p>
-      <p>THINKING FOR YOURSELF IS SO 2000. WELCOME TO THE ERA OF AUTOMATED DESTINY.</p>
-      <p>WHY MAKE A CHOICE WHEN YOU CAN BLAME A CRYPTOGRAPHIC PULSE FOR YOUR FAILURES?</p>
-      <p>I DON'T NEED A THERAPIST, I NEED MORE ENTROPY.</p>
-      <p>THE ULTIMATE AUTOSABOTAGE METHOD.</p>
-
-        <div style="margin-bottom: 20px;">
-            <input type="text" id="question" placeholder="ASK A YES/NO/MAYBE QUESTION..." autocomplete="off" style="width: 80%; padding: 10px; background: #111; border: 1px solid #444; color: #00ff41; font-family: monospace;">
-            <button id="consult-btn">CONSULT NIST BEACON!!!!1</button>
+        <div class="input-group">
+            <input type="text" id="question" placeholder="ASK A YES/NO/MAYBE QUESTION..." autocomplete="off">
+            <button id="consult-btn">CONSULT TAROT</button>
         </div>
 
         <div id="output">
-            </div>
-    </div>
+            <!-- WASM Output will stream here -->
+        </div>
+    </main>
 
     <script>
         var Module = {
             print: function(text) {
-                document.getElementById('output').innerText += text + '\n';
+                const output = document.getElementById('output');
+                output.innerText += text + '\n';
+                output.scrollTop = output.scrollHeight; // Auto-scrolls to bottom
             },
             printErr: function(text) {
-                // This will catch fatal WASM crashes and print them in red
-                document.getElementById('output').innerHTML += '<span style="color: red;">[ERR] ' + text + '</span>\n';
+                document.getElementById('output').innerHTML += `<span style="color: #ff4444;">[ERR] ${text}</span>\n`;
             }
         };
     </script>
-
     <script src="tarot_engine.js"></script>
-
     <script>
         document.getElementById('consult-btn').addEventListener('click', () => {
             const question = document.getElementById('question').value;
@@ -50,7 +54,7 @@
                 return;
             }
 
-            outputBox.innerText += "\n> TRANSMITTING QUERY TO NIST...\n> WAITING FOR BEACON PULSE...\n\n";
+            outputBox.innerText += `\n> QUERY: ${question.toUpperCase()}\n> WAITING FOR NIST ENTROPY...\n`;
             Module._consult_oracle();
         });
     </script>
